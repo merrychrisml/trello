@@ -23,16 +23,32 @@ const Boards = styled.div`
 
 function App() {
   const [toDos, setToDos] = useRecoilState(toDoState);
-  const onDragEnd = ({ draggableId, destination, source }) => {
+  const onDragEnd = (info) => {
+    const { destination, draggableId, source } = info;
     if (!destination) return;
-    setToDos((oldToDos) => {
-      const toDosCopy = [...oldToDos];
-      // soruce 에서 인덱스 제거해서 드래그 한걸로 바꾸기
-      toDosCopy.splice(source.index, 1);
-      toDosCopy.splice(destination?.index, 0, draggableId);
-      // draggableId 가 toDo 이므로 추가해주면 됨
-      return toDosCopy;
-    });
+    if (destination?.droppableId === source.droppableId) {
+      setToDos((allBoards) => {
+        const boardCopy = [...allBoards[source.droppableId]];
+        boardCopy.splice(source.index, 1);
+        boardCopy.splice(destination?.index, 0, draggableId);
+        // draggableId 가 toDo 이므로 추가해주면 됨
+        // [source.droppableId] => 변수로 사용가능
+        return { ...allBoards, [source.droppableId]: boardCopy };
+      });
+    }
+    if (destination.droppableId !== source.droppableId) {
+      setToDos((allBoards) => {
+        const sourceBoard = [...allBoards[source.droppableId]];
+        const destinationBoard = [...allBoards[destination.droppableId]];
+        sourceBoard.splice(source.index, 1);
+        destinationBoard.splice(destination?.index, 0, draggableId);
+        return {
+          ...allBoards,
+          [source.droppableId]: sourceBoard,
+          [destination.droppableId]: destinationBoard,
+        };
+      });
+    }
   };
   /* 드래그가 끝났을때 실행되는 함수. args 로 많은 것을 알려준다. 가령
   목적지의 droppableId 혹은 index를 알려주거나, 우리가 드래그하는 것의 draggable
