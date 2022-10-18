@@ -4,6 +4,7 @@ import styled from "styled-components";
 import { useForm } from "react-hook-form";
 import { useSetRecoilState } from "recoil";
 import { toDoState } from "../atoms";
+import axios from "axios";
 
 const Wrapper = styled.div`
   margin: 10px;
@@ -59,19 +60,46 @@ const Form = styled.form`
 function Board({ toDos, boardId }) {
   const { register, setValue, handleSubmit } = useForm();
   const setToDos = useSetRecoilState(toDoState);
+
+  //   const onValid = ({ toDo }) => {
+  //     const newToDo = {
+  //       id: Date.now(),
+  //       text: toDo,
+  //     };
+  //     setToDos((allBoards) => {
+  //       return {
+  //         ...allBoards,
+  //         [boardId]: [newToDo, ...allBoards[boardId]],
+  //       };
+  //     });
+  //     setValue("toDo", "");
   const onValid = ({ toDo }) => {
     const newToDo = {
       id: Date.now(),
       text: toDo,
+      boardId: [boardId].toString(),
     };
-    setToDos((allBoards) => {
-      return {
-        ...allBoards,
-        [boardId]: [newToDo, ...allBoards[boardId]],
-      };
-    });
+    const url = "http://localhost:3001/toDo";
+    fetch(url, {
+      method: "POST",
+      headers: {
+        "Content-type": "application/json",
+      },
+      body: JSON.stringify(newToDo),
+    })
+      .then((res) => res.json())
+      .then((toDo) => {
+        setToDos((allBoards) => {
+          return {
+            ...allBoards,
+            [boardId]: [toDo, ...allBoards[boardId]],
+          };
+        });
+      });
+
     setValue("toDo", "");
   };
+
   return (
     <Wrapper>
       <Title>{boardId}</Title>

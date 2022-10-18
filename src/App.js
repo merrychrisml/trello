@@ -4,6 +4,7 @@ import { useRecoilState } from "recoil";
 import { toDoState } from "./atoms";
 import Board from "./Components/Board";
 import GlobalStyle from "./GlobalStyle";
+import { useState, useEffect } from "react";
 
 const Wrapper = styled.div`
   display: flex;
@@ -24,9 +25,48 @@ const Boards = styled.div`
 `;
 
 function App() {
+  //   const onValid = ({ toDo }) => {
+  //     const newToDo = {
+  //       id: Date.now(),
+  //       text: toDo,
+  //     };
+  //     setToDos((allBoards) => {
+  //       return {
+  //         ...allBoards,
+  //         [boardId]: [newToDo, ...allBoards[boardId]],
+  //       };
+  //     });
+  //     setValue("toDo", "");
   const [toDos, setToDos] = useRecoilState(toDoState);
+  const [error, setError] = useState(null);
+
+  useEffect(() => {
+    setTimeout(() => {
+      fetch("http://localhost:3001/toDo")
+        .then((res) => {
+          if (!res.ok) {
+            throw Error("could not fetch the data for that resource");
+          }
+          return res.json();
+        })
+        .then((data) => {
+          console.log("data", data);
+          console.log("toDos", toDos);
+          setToDos((allBoards) => {
+            console.log("allBoards", { ...allBoards });
+            console.log("key of toDos", Object.keys(toDos));
+            return { ...allBoards };
+          });
+          setError(null);
+        })
+        .catch((err) => {
+          setError(err.message);
+        });
+    }, 1000);
+  }, []);
+
   const onDragEnd = (info) => {
-    const { destination, draggableId, source } = info;
+    const { destination, source } = info;
     if (!destination) return;
     if (destination?.droppableId === source.droppableId) {
       setToDos((allBoards) => {
