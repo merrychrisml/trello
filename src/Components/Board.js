@@ -77,8 +77,10 @@ function Board({ toDos, boardId }) {
     const newToDo = {
       id: Date.now(),
       text: toDo,
-      boardId: [boardId].toString(),
+      board: boardId,
     };
+
+    console.log(newToDo);
     const url = "http://localhost:3001/toDo";
     fetch(url, {
       method: "POST",
@@ -90,6 +92,7 @@ function Board({ toDos, boardId }) {
       .then((res) => res.json())
       .then((toDo) => {
         setToDos((allBoards) => {
+          // ...allBoards => {boardId1:arr1, boardId2:arr2, boardId3:arr3}
           return {
             ...allBoards,
             [boardId]: [toDo, ...allBoards[boardId]],

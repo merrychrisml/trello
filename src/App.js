@@ -5,6 +5,7 @@ import { toDoState } from "./atoms";
 import Board from "./Components/Board";
 import GlobalStyle from "./GlobalStyle";
 import { useState, useEffect } from "react";
+import axios from "axios";
 
 const Wrapper = styled.div`
   display: flex;
@@ -38,6 +39,7 @@ function App() {
   //     });
   //     setValue("toDo", "");
   const [toDos, setToDos] = useRecoilState(toDoState);
+
   const [error, setError] = useState(null);
 
   useEffect(() => {
@@ -52,9 +54,10 @@ function App() {
         .then((data) => {
           console.log("data", data);
           console.log("toDos", toDos);
+
           setToDos((allBoards) => {
-            console.log("allBoards", { ...allBoards });
-            console.log("key of toDos", Object.keys(toDos));
+            console.log({ ...allBoards }, data);
+
             return { ...allBoards };
           });
           setError(null);
