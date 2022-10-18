@@ -6,19 +6,23 @@ const Card = styled.div`
   border-radius: 5px;
   margin-bottom: 5px;
   padding: 10px 10px;
-  background-color: ${(props) => props.theme.cardColor};
+  background-color: ${(props) =>
+    props.isDragging ? "#e4f2ff" : props.theme.cardColor};
+  box-shadow: ${(props) =>
+    props.isDragging ? "2px 0px 5px rgba(0, 0, 0, 0.5)" : "none"};
 `;
 
-function DraggableCard({ toDo, index }) {
+function DraggableCard({ toDoId, toDoText, index }) {
   return (
-    <Draggable key={toDo} draggableId={toDo} index={index}>
-      {(magic) => (
+    <Draggable draggableId={toDoId + ""} index={index}>
+      {(magic, snapshot) => (
         <Card
+          isDragging={snapshot.isDragging}
           ref={magic.innerRef}
           {...magic.dragHandleProps}
           {...magic.draggableProps}
         >
-          {toDo}
+          {toDoText}
         </Card>
       )}
     </Draggable>
