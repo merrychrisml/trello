@@ -1,3 +1,3 @@
 # Solo Project Todo list
 
-# url : merrychrisml/github.io/trello
+url : http:://merrychrisml/github.io/trello
