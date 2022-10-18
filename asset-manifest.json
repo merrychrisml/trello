@@ -1,0 +1,12 @@
+{
+  "files": {
+    "main.js": "/trello/static/js/main.8661eee3.js",
+    "static/js/787.9538e3f3.chunk.js": "/trello/static/js/787.9538e3f3.chunk.js",
+    "index.html": "/trello/index.html",
+    "main.8661eee3.js.map": "/trello/static/js/main.8661eee3.js.map",
+    "787.9538e3f3.chunk.js.map": "/trello/static/js/787.9538e3f3.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/js/main.8661eee3.js"
+  ]
+}
