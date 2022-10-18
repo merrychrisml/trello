@@ -6,30 +6,33 @@ import { useSetRecoilState } from "recoil";
 import { toDoState } from "../atoms";
 
 const Wrapper = styled.div`
-  padding: 10px 0px;
+  margin: 10px;
+  padding: 10px 20px;
   padding-top: 30px;
-  background-color: ${(props) => props.theme.boardColor};
+  background-image: radial-gradient(circle at 10% 50%, #ffefba 0%, #ffffff 80%);
   border-radius: 5px;
-  min-height: 300px;
-  width: 300px;
+  min-height: 250px;
+  width: 360px;
   display: flex;
   flex-direction: column;
   overflow: hidden;
+  box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
 `;
 
 const Title = styled.h2`
   text-align: center;
   font-weight: 600;
-  margin-bottom: 10px;
-  font-size: 18px;
+  margin-bottom: 20px;
+  font-size: 15px;
+  font-family: "Stylish";
 `;
 
 const Area = styled.div`
   background-color: ${(props) =>
     props.isDraggingOver
-      ? "#dfe6e9"
+      ? "#F3F9A7"
       : props.isDraggingFromThis
-      ? "#b2bec3"
+      ? "#F3F9A7"
       : "transparent"};
   flex-grow: 1;
   transition: background-color 0.3s ease-in-out;
@@ -39,7 +42,17 @@ const Area = styled.div`
 const Form = styled.form`
   width: 100%;
   input {
+    font-family: inherit;
     width: 100%;
+    border: 0;
+    border-bottom: 2px solid;
+    outline: 0;
+    font-size: 1rem;
+    font-family: "Stylish";
+    color: $white;
+    padding: 7px 0;
+    background: transparent;
+    transition: border-color 0.2s;
   }
 `;
 
@@ -54,7 +67,7 @@ function Board({ toDos, boardId }) {
     setToDos((allBoards) => {
       return {
         ...allBoards,
-        [boardId]: [...allBoards[boardId], newToDo],
+        [boardId]: [newToDo, ...allBoards[boardId]],
       };
     });
     setValue("toDo", "");
