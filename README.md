@@ -1,3 +1,2 @@
 # Solo Project Todo list
-
-url : http:://merrychrisml/github.io/trello
+[배포 링크](https://merrychrisml.github.io/trello/)
